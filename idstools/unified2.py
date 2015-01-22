@@ -313,7 +313,9 @@ class EventDecoder(AbstractDecoder):
         values = struct.unpack(self.format, buf)
         keys = [field.name for field in self.fields]
         event = dict(zip(keys, values))
+        event["source-ip.raw"] = event["source-ip"]
         event["source-ip"] = self.decode_ip(event["source-ip"])
+        event["destination-ip.raw"] = event["destination-ip"]
         event["destination-ip"] = self.decode_ip(event["destination-ip"])
         if "appid" in event:
             event["appid"] = str(event["appid"]).split("\x00")[0]
